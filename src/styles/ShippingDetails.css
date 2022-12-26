@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 1.6rem;
+    font-family: "Open Sans", sans-serif;
+    color: #2b3e51;
+    box-sizing: border-box;
+
+}
+
+.shipping-details h2 {
+    font-size: 15px;
+    text-align: center;
+    padding: 5px;
+}
+
+.shipping-details {
+    position: relative;
+    top: 80px;
+    width: 50%;
+    margin: auto;
+    border: 1px solid grey;
+    height: auto;
+    padding: 20px 20px;
+    border-radius: 4px;
+    box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.shipping-details h2 {
+    margin: 0;
+}
+
+.shipping-details label {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.shipping-details input[type="text"] {
+    outline: none;
+    height: 20px;
+    border-radius: 4px;
+    width: 100%;
+    color: #8a8b8e;
+    padding: 2px;
+    border: 1px solid #c2c0ca;
+    font-size: 12px;
+    position: relative;
+    background: none;
+}
+
+input[type="text"]:focus {
+    border-color: #3ca9e2;
+}
+
+.shipping-details .address-button {
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    height: 40px;
+    margin-top: 20px;
+    background: linear-gradient(to bottom right, #8fa0ec, #8EB7EB);
+    cursor: pointer;
+}
+
+.shipping-details button:hover {
+    background: green
+}
+
+
+
+/* ------------------------ORDER SUMMARY-------------------------- */
+
+.order-summary {
+    position: absolute;
+    top: 200px;
+    width: 70%;
+    margin: 0 auto;
+    padding: 30px;
+    border: 1px solid none;
+    border-radius: 10px;
+    height: auto;
+    background: linear-gradient(to bottom right, #8fa0ec, #8EB7EB);
+    box-shadow: 0 8px 8px -4px rgb(207, 230, 238);
+    
+}
+
+.pay-button {
+
+    float: right;
+    background: seagreen;
+    width: 40%;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+}
+
+.order-summary i {
+    font-size: 15px;
+}
+
+.close-button {
+    font-size: 15px;
+    display: block;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    cursor: pointer;
+}
+
+
+
+/* -----------------------Stripe Details------------------- */
+
+.stripe-details{
+    width:200px;
+    height:auto;
+    background-color: #3ca9e2;
+}
+
+
+/* -------------------------------------------MEDIA QUERIES__________________________________ */
+
+
+
+@media only screen and (min-width: 320px) and (max-width: 550px) {
+    .shipping-details {
+        width: 100%;
+    }
+}

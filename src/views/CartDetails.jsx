@@ -1,0 +1,83 @@
+import React from "react";
+import { AfterCart } from "./AfterCart";
+import { useDispatch } from "react-redux";
+
+import { Link } from "react-router-dom";
+// import { addCheckout,removeCart } from "../Redux/Cart";
+import { removeCart } from "../Redux/Cart";
+
+const CartDetails = (props) => {
+  const { cartList, totalCartCount, totalAmount } = props;
+  const dispatch = useDispatch();
+  const user_id = { id: localStorage.getItem("user") };
+
+  // const handleCheckOut=()=>{
+  //   dispatch(addCheckout(cartList));
+  // }
+
+  const handleRemoveItem = (id) => {
+    const productInfo = { product_id: id, customer_id: user_id.id };
+    dispatch(removeCart(productInfo));
+  };
+  return (
+    <div className="cart-body">
+      <div className="cart-list">
+        <div className="header">
+          <h3 className="heading">Shopping Cart</h3>
+          <h5 className="action">Remove all</h5>
+        </div>
+        {cartList.map((item, key) =>
+          item.count > 0 ? (
+            <div className="cart-container" key={key}>
+              <div className="cart-items">
+                <div className="image-box">
+                  <img src={item?.image} alt="product" />
+                </div>
+                <div className="about">
+                  <h1 className="title">{item.name}</h1>
+                  <AfterCart
+                    productID={item?.product_id}
+                    cartCount={item?.count}
+                  />
+                </div>
+                <div className="prices">
+                  <div className="amount">&#163;{item.price * item.count}</div>
+                  <div
+                    className="remove"
+                    onClick={() => handleRemoveItem(item?.product_id)}
+                  >
+                    <u>Remove</u>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )
+        )}
+      </div>
+
+      {/* -------------------------------CheckOut--------------------- */}
+
+      <div className="checkout">
+        <div className="total">
+          Basket Subtotal:
+          <div className="items">{totalCartCount} items</div>
+        </div>
+        <div className="total-amount">
+          Amount:
+          <h5>
+            <sup>&#163;</sup>
+            {totalAmount.toFixed(2)}
+          </h5>
+        </div>
+        <div className="shipping-charge">Free Delivery at checkout</div>
+        <Link to="/shippingdetails" className="link">
+          <button className="checkout-btn">Proceed to Checkout</button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default CartDetails;

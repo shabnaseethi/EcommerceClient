@@ -1,0 +1,98 @@
+body {
+    font-size: 1.6rem;
+    font-family: "Open Sans", sans-serif;
+    color: #2b3e51;
+    box-sizing: border-box;
+}
+.login-card h2 {
+    font-size: 25px;
+    font-weight: 300;
+    text-align: center;
+  }
+  
+.login-card {
+    position: relative;
+    top:150px;
+    background-color: #fff;
+    width: 400px;
+    height: auto;
+    margin: auto;
+    text-align: center;
+    padding: 20px 20px;
+    border-radius: 4px;
+    box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.login-card input {
+    width: 100%;
+    outline: none;
+    height: 40px;
+    border-radius: 4px;
+    margin: 10px 0px;
+}
+
+.login-card input[type="password"],.login-card
+input[type="email"] {
+    width: 100%;
+    color: #8a8b8e;
+    padding: 2px;
+    border: 1px solid #c2c0ca;
+    font-style: normal;
+    font-size: 16px;
+    position: relative;
+    background: none;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+    border-color: #3ca9e2;
+}
+
+input[type="text"]:focus:invalid,
+input[type="email"]:focus:invalid {
+    color: #cc1e2b;
+    border-color: #cc1e2b;
+}
+
+.login-card input[type="submit"] {
+    border: none;
+    display: block;
+    background-color: #3ca9e2;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    font-size: 18px;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+}
+
+.login-card input[type="submit"]:hover {
+    background-color: #329dd5;
+    /* -webkit-transition: all 0.2s ease; */
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.create-acc {
+
+    background-color: #eeedf1;
+    color: #8a8b8e;
+    font-size: 14px;
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 0 0 4px 4px;
+    cursor: pointer;
+
+}
+.signup_link{
+    cursor: pointer;
+    color: blue;
+    text-decoration: none;
+}
