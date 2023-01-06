@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { loginStatus } from "../Redux/User";
 import { fetchCart } from "../Redux/Cart";
 import { toast } from "react-toastify";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faShoppingBag} from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const { cartList } = useSelector((state) => state.cart);
@@ -73,7 +75,7 @@ const Header = () => {
           )}
           <div className="cart-icon">
             <Link to="/shoppingcart">
-              <i className="fa fa-shopping-cart"></i>
+            <FontAwesomeIcon className="fa-shopping-cart" icon={faShoppingBag}/>
             </Link>
           </div>
         </div>

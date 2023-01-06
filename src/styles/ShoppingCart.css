@@ -149,6 +149,12 @@ body {
     cursor: pointer;
     font-size: 15px;
 }
+.before-shopping h4{
+    margin: 0;
+}
+.before-shopping h5{
+    margin-top: 10px;
+}
 
 
 
