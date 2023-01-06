@@ -1,30 +1,46 @@
 import React from "react";
 import { AfterCart } from "./AfterCart";
 import { useDispatch } from "react-redux";
-
-import { Link } from "react-router-dom";
-// import { addCheckout,removeCart } from "../Redux/Cart";
-import { removeCart } from "../Redux/Cart";
+import { removeCart,deleteCart } from "../Redux/Cart";
 
 const CartDetails = (props) => {
   const { cartList, totalCartCount, totalAmount } = props;
   const dispatch = useDispatch();
   const user_id = { id: localStorage.getItem("user") };
-
-  // const handleCheckOut=()=>{
-  //   dispatch(addCheckout(cartList));
-  // }
-
   const handleRemoveItem = (id) => {
     const productInfo = { product_id: id, customer_id: user_id.id };
     dispatch(removeCart(productInfo));
   };
+
+  const handleCheckout = async () => {
+    await fetch(`/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ items: cartList }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response.url) {
+          window.location.assign(response.url); // Forwarding user to Stripe
+        }
+      });
+  };
+  const handleRemoveAll = async () => {
+      dispatch(deleteCart(user_id));
+  };
+
   return (
     <div className="cart-body">
       <div className="cart-list">
         <div className="header">
           <h3 className="heading">Shopping Cart</h3>
-          <h5 className="action">Remove all</h5>
+          <h5 className="action" onClick={handleRemoveAll}>
+            Remove all
+          </h5>
         </div>
         {cartList.map((item, key) =>
           item.count > 0 ? (
@@ -38,6 +54,7 @@ const CartDetails = (props) => {
                   <AfterCart
                     productID={item?.product_id}
                     cartCount={item?.count}
+                    productPrice={item?.price}
                   />
                 </div>
                 <div className="prices">
@@ -72,9 +89,10 @@ const CartDetails = (props) => {
           </h5>
         </div>
         <div className="shipping-charge">Free Delivery at checkout</div>
-        <Link to="/shippingdetails" className="link">
-          <button className="checkout-btn">Proceed to Checkout</button>
-        </Link>
+
+        <button className="checkout-btn" onClick={handleCheckout}>
+          Proceed to Checkout
+        </button>
       </div>
     </div>
   );

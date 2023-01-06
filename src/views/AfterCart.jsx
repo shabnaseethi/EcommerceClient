@@ -28,19 +28,9 @@ export const AfterCart = ({ productID, cartCount, productPrice }) => {
 
   return (
     <div className="after-cart">
-      <button
-        className="cart-count-button"
-        onClick={() => decrement(productID)}
-      >
-        -
-      </button>
-      <div className="cart-count">{cartCount}</div>
-      <button
-        className="cart-count-button"
-        onClick={() => increment(productID)}
-      >
-        +
-      </button>
+      <span className="minus" onClick={()=>decrement(productID)}>-</span>
+      <span className="num" >{cartCount}</span>
+      <span className="plus" onClick={()=>increment(productID)}>+</span>
     </div>
   );
 };

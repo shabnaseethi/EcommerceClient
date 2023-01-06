@@ -1,0 +1,46 @@
+body{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.order-container{
+    overflow-x: auto;
+
+}
+
+.order-wrapper{
+    position: relative;
+    top:80px;
+    text-align: center;
+}
+.order-wrapper h5{
+    padding: 20px;
+}
+.order-container table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 15px;
+   
+  }
+  .order-details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color:black;
+    font-size: 15px;
+  }
+  .order-container th {
+    text-align:center;
+    padding: 8px;
+  }
+  .order-container td{
+    padding: 10px;
+    border-bottom: 1px solid gray;
+  }
+.order-container img{
+    width: 100px;
+    height: 100px;
+    margin: auto 20px;
+    object-fit: contain;
+}

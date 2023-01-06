@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addUser, loginStatus } from "../Redux/User";
-import Axios from "axios";
+import { toast } from "react-toastify";
+
 
 function Login() {
   const dispatch = useDispatch();
   const [inputValues, setInputValues] = useState({});
-  const { isLogged } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const handleOnChange = (event) => {
@@ -41,7 +41,10 @@ function Login() {
             localStorage.setItem("user", JSON.stringify(user.id));
 
             dispatch(addUser(data));
-            navigate("/dashboard");
+            navigate("/");
+          }
+          else{
+            toast.error(data.status);
           }
         });
     } catch (error) {
@@ -61,12 +64,16 @@ function Login() {
         .then((response) => response.json())
         .then((data) => {
           if (data.loggedIn) {
-            navigate("/dashboard");
+            dispatch(loginStatus(data.loggedIn));
+            navigate("/");
+          }
+          else{
+            toast.error(data.status);
           }
         });
     };
     fetchData();
-  }, [isLogged]);
+  }, [navigate,dispatch]);
 
   return (
     <div className="login-container">
@@ -110,6 +117,7 @@ function Login() {
             </Link>
           </p>
         </div>
+       
       </div>
     </div>
   );

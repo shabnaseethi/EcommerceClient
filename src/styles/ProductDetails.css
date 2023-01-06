@@ -64,3 +64,14 @@
     transition: var(--transition); */
 
 }
+
+
+/* -----------------------------Toast------------------- */
+.Toastify__toast--error {
+    border: 1px solid #EB5757;
+    font-size: 14px;
+  }
+  .Toastify__toast--success{
+    border: 1px solid white;
+    font-size: 14px;
+  }

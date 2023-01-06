@@ -7,14 +7,19 @@ import Home from "./views/Home.jsx";
 import ProductDetails from "./views/ProductDetails.jsx";
 import Login from "./views/Login.jsx";
 import { ShoppingCart } from "./views/ShoppingCart.jsx";
-import Footer from "./views/Footer.jsx";
-import ShippingDetails from "./views/ShippingDetails.jsx";
 import Signup from "./views/Signup.jsx";
-import Dashboard from "./views/Dashboard.jsx";
-import ProtectedRoute from "./Helper/ProtectedRoute.js";
+import { LoginProtected } from "./Helper/LoginProtected.js";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Orders from "./views/Orders.jsx";
+import CheckoutSuccess from "./views/CheckoutSuccess.jsx";
+import CheckoutFailed from "./views/CheckoutFailed.jsx";
+import OrderHistory from "./views/OrderHistory.jsx";
+import { useSelector } from "react-redux";
 
 const App = () => {
   const dispatch = useDispatch();
+  const { isLogged } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchData());
@@ -23,7 +28,6 @@ const App = () => {
   return (
     <div className="App">
       <Router>
-  
         <Header />
         <Routes>
           <Route path="/" exact element={<Home />}></Route>
@@ -32,18 +36,38 @@ const App = () => {
             exact
             element={<ProductDetails />}
           ></Route>
-
-          <Route path="/shoppingcart" exact element={<ShoppingCart />}></Route>
-          <Route
-            path="/shippingdetails"
-            exact
-            element={<ShippingDetails />}
-          ></Route>
           <Route path="/signup" exact element={<Signup />}></Route>
           <Route path="/login" exact element={<Login />}></Route>
-          <Route path="/dashboard" exact element={<Dashboard />}></Route>
+          <Route element={<LoginProtected isLogged={isLogged} />}>
+            <Route
+              path="/shoppingcart"
+              exact
+              element={<ShoppingCart />}
+            ></Route>
+            <Route path="/orders" exact element={<Orders />}></Route>
+            <Route path="/orders" exact element={<Orders />}></Route>
+            <Route
+              path="/order-history"
+              exact
+              element={<OrderHistory />}
+            ></Route>
+          </Route>
+          <Route path="/success" element={<CheckoutSuccess />} />
+          <Route path="/failed" element={<CheckoutFailed />} />
         </Routes>
       </Router>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };

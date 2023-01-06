@@ -4,6 +4,7 @@ import "../styles/Header.css";
 import { useSelector, useDispatch } from "react-redux";
 import { loginStatus } from "../Redux/User";
 import { fetchCart } from "../Redux/Cart";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const { cartList } = useSelector((state) => state.cart);
@@ -29,14 +30,18 @@ const Header = () => {
       .then((data) => {
         dispatch(loginStatus(data.loggedIn));
       });
+      localStorage.removeItem("user");
     navigate("/login");
+    toast.info("Successfully Loggedout!!!", {
+      className: "toast-info",
+    });
   };
 
   useEffect(() => {
     if (isLogged) {
       dispatch(fetchCart(user_id));
     }
-  }, [isLogged]);
+  }, [dispatch,isLogged]);
 
   return (
     <header className="header-container">
@@ -57,6 +62,9 @@ const Header = () => {
             </Link>
           )}
         </div>
+        <Link to="/signup" className="link register">
+          Register
+        </Link>
         <div className="right-header">
           {isLogged ? (
             <div className="cart-count-header">{totalCartCount}</div>

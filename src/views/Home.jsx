@@ -1,19 +1,25 @@
-import React from 'react';
+import React from "react";
 import { useSelector } from "react-redux";
-import Products from './Products';
+import Products from "./Products";
 import "../styles/Home.css";
+import Dashboard from "./Dashboard";
+
 
 const Home = () => {
-  const  authUser = useSelector((state) => state.auth);
-  console.log(authUser);
+  const { isLogged } = useSelector((state) => state.user);
+
   return (
     <>
-    <section className="product-list">
-      <div className='banner-container'></div>
-      <Products/>
-    </section>
-  </>
-  )
-}
+      {isLogged ? (
+        <Dashboard />
+      ) : (
+        <section className="product-list">
+          <div className="banner-container"></div>
+          <Products />
+        </section>
+      )}
+    </>
+  );
+};
 
-export default Home
+export default Home;

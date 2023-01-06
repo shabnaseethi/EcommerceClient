@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import "../styles/Signup.css";
-import {useDispatch} from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../Redux/AuthSlice";
 
 function Signup() {
+  const { registerStatus } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [userdata, setUserdata] = useState({
     firstname: "",
-    lastname:"",
+    lastname: "",
     email: "",
     password: "",
     confirmpassword: "",
   });
-  const [errors, setErrors] = useState([]);
-  const [success,setSuccess] = useState();
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setUserdata({ ...userdata, [e.target.name]: e.target.value });
   };
@@ -22,22 +23,21 @@ function Signup() {
     e.preventDefault();
     try {
       dispatch(registerUser(userdata));
-      
-      // await fetch("http://localhost:5000/signup", {
-      //   method: "POST",
-      //   credentials: "include",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(userdata),
-      // }).then((res)=>res.json()).then(data=>setErrors(data));
+      console.log(registerStatus);
+      if (registerStatus) {
+        setUserdata({ firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        confirmpassword: ""})
+        navigate("/login");
+        
+      }
     } catch (error) {
       console.error(error.message);
     }
-    console.log(errors);
-   
   };
-  
+
   return (
     <div className="signup-card">
       <h2>SignUp</h2>
@@ -111,6 +111,7 @@ function Signup() {
           <input type="submit" className="login" value="SignUp"></input>
         </p>
       </form>
+   
     </div>
   );
 }

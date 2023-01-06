@@ -1,15 +1,12 @@
-import React from "react";
-import {  Navigate} from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Navigate, Outlet } from "react-router-dom";
+export const ProtectedRoute = ({
+  isOrdered,
+  orderStatus,
+  redirectPath = "/",
+}) => {
+  if (orderStatus === "false" && isOrdered === "false") {
+    return <Navigate to={redirectPath} replace />;
+  }
 
-const ProtectedRoute = ({children}) => {
-  const { isLogged } = useSelector((state) => state.user);
-  
-  return (
-    <>
-     {isLogged?children:<Navigate to="/login"/>}
-    </>
-  );
+  return <Outlet />;
 };
-
-export default ProtectedRoute;

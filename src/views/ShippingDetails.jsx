@@ -2,15 +2,12 @@ import React, { useState, useEffect } from "react";
 import "../styles/ShippingDetails.css";
 import StripeCheckout from "react-stripe-checkout";
 import { useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
+
 
 const ShippingDetails = () => {
-  const { cartList,itemsToBuy } = useSelector((state) => state.cart);
-  // console.log(itemsToBuy);
+  const { cartList } = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
 
-  console.log(cartList);
 const product= cartList.map((item)=>
 {
   return {
@@ -18,7 +15,7 @@ const product= cartList.map((item)=>
     count:item.count
   }
 })
-console.log(product);
+
 
   const totalCartCount = cartList.reduce(
     (acc, value) => (acc += value.count),
@@ -94,11 +91,7 @@ console.log(product);
       </button>
       {checkout && (
         <div className="order-summary">
-          <FontAwesomeIcon
-            icon={faXmarkCircle}
-            className="close-button"
-            onClick={() => setCheckout(false)}
-          />
+         
           <h5>Total Amount: &#163;{totalAmount}</h5>
           <StripeCheckout
             className="stripe-details"

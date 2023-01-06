@@ -84,6 +84,7 @@ body {
     font-size: 14px;
 }
 
+
 .cart-items .prices {
     margin-right: 20px;
 }
@@ -144,6 +145,11 @@ body {
     background: rgb(111, 221, 111);
     transition: ease-in 0.2s;
 }
+.shopping h5{
+    cursor: pointer;
+    font-size: 15px;
+}
+
 
 
 
@@ -164,3 +170,22 @@ body {
         flex-direction: column;
     }
 }
+
+
+
+
+
+
+
+/* --------------------------Toast------------------ */
+
+
+.Toastify__toast--error {
+    border: 1px solid #EB5757;
+    font-size: 14px;
+  }
+  .Toastify__toast--success,.Toastify__toast--warning{
+    border: 1px solid white;
+    font-size: 14px;
+  }
+   

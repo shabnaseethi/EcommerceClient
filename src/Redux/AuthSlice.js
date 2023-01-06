@@ -1,21 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { url } from "../api";
+import { toast } from "react-toastify";
+
 const INITIAL_STATE = {
-  token: "",
-  name: "",
-  email: "",
-  _id: "",
-  registerStatus: "",
-  registerError: "",
-  loginStatus: "",
-  loginError: "",
-  userLoaded: false,
+  errors: [],
 };
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (values) => {
-    const response = fetch("http://localhost:5000/signup", {
+    const response = fetch(`/signup`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -24,11 +17,12 @@ export const registerUser = createAsyncThunk(
       body: JSON.stringify(values),
     })
       .then((res) => res.json())
-      .then((data) => {return data});
-     return response
+      .then((data) => {
+        return data;
+      });
+    return response;
   }
 );
-
 const authSlice = createSlice({
   name: "auth",
   initialState: INITIAL_STATE,
@@ -38,13 +32,18 @@ const authSlice = createSlice({
       console.log("Loading");
     },
     [registerUser.fulfilled]: (state, action) => {
-      console.log("Success");
-     console.log(action.payload);
-     state.name = action.payload.name;
-     state._id= action.payload.id;
-     state.email=action.payload.email;
-     state.registerStatus=true;
-     state.userLoaded=true;
+
+
+      if (Array.isArray(action.payload)) {
+        action.payload.map((error) => {
+          toast.error(error.message);
+        });
+      }
+      if (action.payload.isRegistered) {
+        state.registerStatus = true;
+        toast.success("You are successfully registered");
+        toast.success("Please Login...");
+      }
     },
     [registerUser.rejected]: (state, action) => {
       console.log("Rejected");

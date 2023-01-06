@@ -1,5 +1,6 @@
-import React,{useEffect, useState} from "react";
+import React from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import "../styles/ShoppingCart.css";
 import CartDetails from "./CartDetails";
 
@@ -21,7 +22,7 @@ export const ShoppingCart = () => {
     <div className="shopping">
      {totalCartCount===0?<div className="before-shopping">
       <h4>Your Shopping Cart is empty</h4>
-      <p>Start shopping</p>
+      <Link to="/"><h5>Start shopping</h5></Link>
      </div>: <CartDetails
         cartList={cartList}
         totalCartCount={totalCartCount}
