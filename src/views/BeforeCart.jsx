@@ -6,10 +6,10 @@ import { addToCart } from "../Redux/Cart";
 import { toast } from "react-toastify";
 
 function BeforeCart({ product }) {
-  const user_id = { id: localStorage.getItem("user") };
+  const user_id = localStorage.getItem("user_id");
   const { isLogged } = useSelector((state) => state.user);
   const addCart = (product) => {
-    product.product.user_id = parseInt(user_id.id);
+    product.product.user_id = parseInt(user_id);
     if(isLogged){
       dispatch(addToCart({ product }));
     }
@@ -22,7 +22,7 @@ function BeforeCart({ product }) {
   return (
     <div className="before-cart">
       <button className="add-cart-button" onClick={() => addCart({ product })}>
-        Add to Cart
+        Add Cart
       </button>
     </div>
   );

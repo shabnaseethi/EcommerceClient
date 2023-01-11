@@ -10,11 +10,12 @@ body{
 
 .order-wrapper{
     position: relative;
-    top:80px;
     text-align: center;
+
 }
 .order-wrapper h5{
     padding: 20px;
+    text-decoration: underline;
 }
 .order-container table {
     border-collapse: collapse;
@@ -43,4 +44,30 @@ body{
     height: 100px;
     margin: auto 20px;
     object-fit: contain;
+}
+.order-details{
+  border-bottom: 1px solid gainsboro;
+}
+.order-details h5{
+  font-size: 20px;
+}
+
+.order-details .link{
+  text-decoration: none;
+}
+.order-details button{
+  width: 100%;
+	padding: 10px 30px;
+	cursor: pointer;
+	display: block;
+	margin: 30px auto;
+	background:gainsboro;
+	border: 0;
+	outline: none;
+	border-radius: 10px;
+    font-size: 18px;
+}
+.order-details button:hover{
+  background-color: #e22175;;
+  transition: 0.5s ease-in-out;
 }

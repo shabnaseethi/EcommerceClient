@@ -25,13 +25,14 @@ function Signup() {
       dispatch(registerUser(userdata));
       console.log(registerStatus);
       if (registerStatus) {
-        setUserdata({ firstname: "",
-        lastname: "",
-        email: "",
-        password: "",
-        confirmpassword: ""})
+        setUserdata({
+          firstname: "",
+          lastname: "",
+          email: "",
+          password: "",
+          confirmpassword: "",
+        });
         navigate("/login");
-        
       }
     } catch (error) {
       console.error(error.message);
@@ -39,29 +40,29 @@ function Signup() {
   };
 
   return (
-    <div className="signup-card">
-      <h2>SignUp</h2>
-      <form
-        id="signup-form"
-        method="POST"
-        action="signup"
-        onSubmit={handleSignUp}
-      >
-        <p>
+    <>
+     <div className="banner">
+     <div className="form-box-register">
+        <form
+          id="signup-form"
+          method="POST"
+          action="signup"
+          onSubmit={handleSignUp}
+          className="input-group-register"
+        >
           <input
             type="text"
-            id="firstname"
-            name="firstname"
+            className="input-field"
             placeholder="First Name"
+            name="firstname"
             autoComplete="off"
             value={userdata.firstname}
             onChange={handleChange}
             required
-          ></input>
-        </p>
-        <p>
+          />
           <input
             type="text"
+            className="input-field"
             id="lastname"
             name="lastname"
             placeholder="Last Name"
@@ -69,11 +70,10 @@ function Signup() {
             value={userdata.lastname}
             onChange={handleChange}
             required
-          ></input>
-        </p>
-        <p>
+          />
           <input
-            type="email"
+            type="password"
+            className="input-field"
             id="email"
             name="email"
             placeholder="Email Address"
@@ -81,11 +81,10 @@ function Signup() {
             onChange={handleChange}
             autoComplete="off"
             required
-          ></input>
-        </p>
-        <p>
+          />
           <input
             type="password"
+            className="input-field"
             id="password"
             name="password"
             placeholder="Password"
@@ -93,9 +92,7 @@ function Signup() {
             onChange={handleChange}
             autoComplete="on"
             required
-          ></input>
-        </p>
-        <p>
+          />
           <input
             type="password"
             id="confirm-password"
@@ -105,14 +102,14 @@ function Signup() {
             onChange={handleChange}
             autoComplete="on"
             required
-          ></input>
-        </p>
-        <p>
-          <input type="submit" className="login" value="SignUp"></input>
-        </p>
-      </form>
-   
-    </div>
+          />
+          <button type="submit" className="submit-btn">
+            Register
+          </button>
+        </form>
+      </div>
+     </div>
+    </>
   );
 }
 

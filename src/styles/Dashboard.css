@@ -1,22 +1,4 @@
-.my-orders{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-align-items: center;
-    position: relative;
-    top:80px;
-    margin-bottom: 100px;
-    text-align: center;
-}
-.my-orders button{
-    width: 200px;
-    padding: 10px;
-    background-color: rgb(139, 141, 141);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-}
-.my-orders button:hover{
-    background-color: white;
-    box-shadow:2px 2px 3px 1px rgb(99, 98, 98);
+.dashboard{
+position: relative;
+top:80px;
 }

@@ -7,18 +7,18 @@ const OrderHistory = () => {
     const { allOrderList } = useSelector((state) => state.order);
     const dispatch = useDispatch();
   
-    const user_id = { id: localStorage.getItem("user") };
+    const user_id = parseInt(localStorage.getItem("user_id"))
   
     useEffect(() => {
       const fetchOrderDetails = () => dispatch(fetchAllOrder(user_id));
       fetchOrderDetails();
-    }, []);
+    },[user_id]);
   
   
   return (
     <>
     <div className="order-wrapper">
-        <h5>Your Order History</h5>
+        <h5>Order History</h5>
         {allOrderList.length>0?<div className="order-container">
           <table>
             <thead>

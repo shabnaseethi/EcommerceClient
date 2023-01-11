@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 import { useDispatch } from "react-redux";
-import { addUser, loginStatus } from "../Redux/User";
+import { loginStatus } from "../Redux/User";
 import { toast } from "react-toastify";
-
+import CustomAxios from "../api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 function Login() {
   const dispatch = useDispatch();
@@ -14,6 +16,7 @@ function Login() {
   const handleOnChange = (event) => {
     const { name, value } = event.target;
     setInputValues({ ...inputValues, [name]: value });
+
   };
 
   const handlelogin = async (e) => {
@@ -30,20 +33,14 @@ function Login() {
         .then((response) => response.json())
         .then((data) => {
           if (data.loggedIn) {
+          
             dispatch(loginStatus(data.loggedIn));
-            const user = {
-              id: data.id,
-              email: data.username,
-              first_name: data.first_name,
-              last_name: data.last_name,
-            };
 
-            localStorage.setItem("user", JSON.stringify(user.id));
-
-            dispatch(addUser(data));
-            navigate("/");
-          }
-          else{
+            localStorage.setItem("accessToken", data.accessToken);
+            localStorage.setItem("refreshToken", data.refreshToken);
+            localStorage.setItem("user_id", data.user.id);
+            navigate("/dashboard");
+          } else {
             toast.error(data.status);
           }
         });
@@ -51,75 +48,57 @@ function Login() {
       return;
     }
   };
-
   useEffect(() => {
-    const fetchData = async () => {
-      await fetch("http://localhost:5000/login", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.loggedIn) {
-            dispatch(loginStatus(data.loggedIn));
-            navigate("/");
+    const fetchUser = async () => {
+      try {
+        await CustomAxios.get("/login").then((res) => {
+         
+          if(res.status===401){
+            console.log("Authenticated");
           }
-          else{
-            toast.error(data.status);
+          if (res.response.data.error) {
+            navigate("/login");
+          } else {
+            navigate("/dashboard");
+            dispatch(loginStatus(true));
           }
         });
+      } catch (error) {
+        throw error.message;
+      }
     };
-    fetchData();
-  }, [navigate,dispatch]);
+    fetchUser();
+  }, [navigate, dispatch]);
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <h2>Login</h2>
-        <form
-          id="login-form"
-          method="POST"
-          action="login"
-          onSubmit={handlelogin}
-        >
-          <p>
-            <input
-              type="email"
-              id="useremail"
-              name="email"
-              placeholder="Email Address"
-              onChange={handleOnChange}
-              required
-            ></input>
-          </p>
-          <p>
-            <input
-              type="password"
-              id="userpassword"
-              name="password"
-              placeholder="Password"
-              onChange={handleOnChange}
-              required
-            ></input>
-          </p>
-          <p>
-            <input type="submit" className="login" value="Login"></input>
-          </p>
-        </form>
-        <div className="create-acc">
-          <p>
-            Not a member??
-            <Link to="/signup" className="signup_link">
-              SignUp
-            </Link>
-          </p>
-        </div>
-       
-      </div>
+    <>
+    <div className="banner">
+    <div className="form-box-login">
+   
+   <form id='login' className='input-group-login' method="POST"
+         action="login"
+         onSubmit={handlelogin}>
+   <FontAwesomeIcon
+              className="fa-user"
+              icon={faUser}
+            />
+     <input type="email"
+             id="useremail"
+             name="email"
+             placeholder="Email Address"
+             onChange={handleOnChange}
+             required />
+        <input type="password"
+             id="userpassword"
+             name="password"
+             placeholder="Password"
+             onChange={handleOnChange}
+             required/>
+        <button type='submit'className='submit-btn'>Login</button>
+  </form>
+   </div>
     </div>
+     </>
   );
 }
 

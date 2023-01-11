@@ -15,7 +15,7 @@ const CheckoutSuccess = () => {
     withCredentials: true,
   });
   const { isLogged } = useSelector((state) => state.user);
-  const user_id = { id: localStorage.getItem("user") };
+  const user_id = localStorage.getItem("user_id");
   
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -29,8 +29,7 @@ const CheckoutSuccess = () => {
             session_id: id,
           },
         })
-        .then((res) => {
-          
+        .then((res) => {         
           dispatch(loginStatus(res.data.data));
           dispatch(setIsOrdered(res.data.data));
           dispatch(setOrderStatus(res.data.data));
@@ -40,7 +39,7 @@ const CheckoutSuccess = () => {
     if(isOrdered){
       dispatch(deleteCart(user_id));
     }
-  }, [isOrdered,user_id.id,dispatch,instance]);
+  }, [isOrdered,user_id,dispatch,instance]);
 
   return (
     <>
@@ -48,7 +47,6 @@ const CheckoutSuccess = () => {
     {isOrdered&&isLogged? <div className="checkout-container">
           <h3>Success</h3>
           <h3>Your order has been placed!!!!!</h3>
-          <p>My orders</p>
         </div>:<h1>404!!!Page not Found</h1>}
       </div>
     </>

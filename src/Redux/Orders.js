@@ -16,7 +16,7 @@ export const fetchOrder = createAsyncThunk(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify({id:values}),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -28,13 +28,14 @@ export const fetchOrder = createAsyncThunk(
 export const fetchAllOrder = createAsyncThunk(
   "order/fetchAllOrder",
   async (values) => {
+    
     const response = await fetch(`/allorder`, {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify({id:values}),
     })
       .then((res) => res.json())
       .then((data) => {

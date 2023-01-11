@@ -1,23 +1,40 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import Products from "./Products";
 import "../styles/Home.css";
-import Dashboard from "./Dashboard";
-
+import { useDispatch } from "react-redux";
+import { loginStatus } from "../Redux/User";
+import Signup from "./Signup";
+import CustomAxios from "../api";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const { isLogged } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
+    useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          await CustomAxios.get("/home").then((res) => {
+            if (!res.response.data.error) {
+              navigate("/dashboard");
+              dispatch(loginStatus(true));
+            } 
+            
+          });
+        } catch (error) {
+          throw error.message;
+        }
+      };
+      fetchUser();
+    });
 
   return (
     <>
-      {isLogged ? (
-        <Dashboard />
-      ) : (
-        <section className="product-list">
-          <div className="banner-container"></div>
-          <Products />
-        </section>
-      )}
+      <div className="banner">
+        <div className="banner-home">
+          <Signup />
+        </div>
+        <Products />
+      </div>
     </>
   );
 };

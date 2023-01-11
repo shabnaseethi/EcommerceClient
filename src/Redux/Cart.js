@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -15,7 +14,8 @@ const instance = axios.create({
 });
 
 export const fetchCart = createAsyncThunk("cart/fetchCart", async (values) => {
-  const response = fetch(`/cart/${values.id}`, {
+  
+  const response = fetch(`/cart/${values}`, {
     method: "GET",
     credentials: "include",
     headers: {
@@ -30,13 +30,14 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async (values) => {
 });
 
 export const fetchData = createAsyncThunk("cart/fetchData", async () => {
-  const response = await fetch("/products")
+  const response = await fetch(`/products`)
     .then((response) => response.json())
     .then((data) => data.data);
   return response;
 });
 
 export const addToCart = createAsyncThunk("cart/addToCart", async (values) => {
+  console.log(values);
   const response = fetch(`/addCart`, {
     method: "POST",
     credentials: "include",
@@ -113,7 +114,7 @@ export const deleteCart = createAsyncThunk(
   async (values) => {
  
     const response = await instance
-      .delete(`/deletecart/${values.id}`)
+      .delete(`/deletecart/${values}`)
      .catch(err=>console.log(err.message));
     return response;
   }

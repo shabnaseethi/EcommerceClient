@@ -1,85 +1,57 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "../styles/Header.css";
+import React from "react";
+import {  useNavigate } from "react-router-dom";
+
+import "../styles/HeaderLogin.css"
 import { useSelector, useDispatch } from "react-redux";
 import { loginStatus } from "../Redux/User";
-import { fetchCart } from "../Redux/Cart";
 import { toast } from "react-toastify";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faShoppingBag} from '@fortawesome/free-solid-svg-icons';
+
+import CustomAxios from "../api";
+
+import LoginHeader from "./LoginHeader";
+import LogoutHeader from "./LogoutHeader";
+
 
 const Header = () => {
   const { cartList } = useSelector((state) => state.cart);
   const { isLogged } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user_id = { id: localStorage.getItem("user") };
+ 
 
   const totalCartCount = cartList.reduce(
     (acc, value) => (acc += value.count),
     0
   );
+  const token = localStorage.getItem("refreshToken");
+  
 
   const handlelogout = async () => {
-    await fetch("http://localhost:5000/logout", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch(loginStatus(data.loggedIn));
-      });
-      localStorage.removeItem("user");
-    navigate("/login");
+    await CustomAxios.post("/logout", {
+      token: token,
+    }).then((response) => {
+      localStorage.clear();
+      dispatch(loginStatus(false));
+      navigate("/");
+    });
     toast.info("Successfully Loggedout!!!", {
       className: "toast-info",
     });
   };
 
-  useEffect(() => {
-    if (isLogged) {
-      dispatch(fetchCart(user_id));
-    }
-  }, [dispatch,isLogged]);
+ const renderHeader=()=>{
+  if(!isLogged){
+    return <LoginHeader/>
+  }
+  return <LogoutHeader totalCartCount={totalCartCount} handlelogout={handlelogout}/>
+
+ }
 
   return (
     <header className="header-container">
-      <nav className="nav-links">
-        <div className="home-header">
-          <Link to="/" className="link">
-            Home
-          </Link>
-        </div>
-        <div className="login-header">
-          {isLogged ? (
-            <Link className="link" onClick={handlelogout}>
-              Logout
-            </Link>
-          ) : (
-            <Link to="/login" className="link">
-              Login
-            </Link>
-          )}
-        </div>
-        <Link to="/signup" className="link register">
-          Register
-        </Link>
-        <div className="right-header">
-          {isLogged ? (
-            <div className="cart-count-header">{totalCartCount}</div>
-          ) : (
-            <div className="cart-count-header">0</div>
-          )}
-          <div className="cart-icon">
-            <Link to="/shoppingcart">
-            <FontAwesomeIcon className="fa-shopping-cart" icon={faShoppingBag}/>
-            </Link>
-          </div>
-        </div>
-      </nav>
+      
+      {renderHeader()}
+      
     </header>
   );
 };

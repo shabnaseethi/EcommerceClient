@@ -1,50 +1,45 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { loginStatus, addUser } from "../Redux/User";
+import { useDispatch } from "react-redux";
+import { loginStatus } from "../Redux/User";
 
 import "../styles/Dashboard.css";
 import Products from "./Products";
+import CustomAxios from "../api";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { isLogged} = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      await fetch("http://localhost:5000/dashboard", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          dispatch(addUser(data.user));
-          dispatch(loginStatus(data.loggedIn));
-
-          if (!data.loggedIn) {
+    const fetchUser = async () => {
+      try {
+        await CustomAxios.get("/dashboard").then((res) => {
+        
+          if (res.response.data.error) {
+            console.log("Not Authenticated");
             navigate("/login");
+           
+          }
+          else {
+            
+            dispatch(loginStatus(true));
           }
         });
+      } catch (error) {
+        throw error.message;
+      }
     };
-    if (!isLogged) {
-      fetchData();
-    }
-  }, [dispatch,isLogged,navigate]);
+    fetchUser();
+  });
 
-  const handleMyOrders = () => {
-    navigate("/orders");
-  };
   return (
-    <div>
-      <div className="my-orders">
-        <button onClick={handleMyOrders}>My Orders</button>
+    <>
+      <div className="dashboard">
+       
       </div>
       <Products />
-    </div>
+    </>
   );
 };
 

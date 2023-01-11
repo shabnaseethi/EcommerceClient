@@ -6,7 +6,7 @@ import { removeCart,deleteCart } from "../Redux/Cart";
 const CartDetails = (props) => {
   const { cartList, totalCartCount, totalAmount } = props;
   const dispatch = useDispatch();
-  const user_id = { id: localStorage.getItem("user") };
+  const user_id =localStorage.getItem("user_id")
   const handleRemoveItem = (id) => {
     const productInfo = { product_id: id, customer_id: user_id.id };
     dispatch(removeCart(productInfo));
