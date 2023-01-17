@@ -33,12 +33,12 @@ const CheckoutSuccess = () => {
           dispatch(loginStatus(res.data.data));
           dispatch(setIsOrdered(res.data.data));
           dispatch(setOrderStatus(res.data.data));
+          dispatch(deleteCart(user_id));
         })
     };
     fetchOrderStatus();
-    if(isOrdered){
-      dispatch(deleteCart(user_id));
-    }
+   
+      
   }, [isOrdered,user_id,dispatch,instance]);
 
   return (

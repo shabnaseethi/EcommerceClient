@@ -5,7 +5,7 @@ import { incrementCart, decrementCart } from "../Redux/Cart";
 export const AfterCart = ({ productID, cartCount, productPrice }) => {
   const dispatch = useDispatch();
 
-  const user_id = localStorage.getItem("user_id");
+  const user_id = localStorage.getItem("user");
   const decrement = (product) => {
     const productInfo = {
       product_id: product,

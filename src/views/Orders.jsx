@@ -8,7 +8,7 @@ const Orders = () => {
   const { orderList } = useSelector((state) => state.order);
   const dispatch = useDispatch();
 
-  const user_id = parseInt(localStorage.getItem("user_id"));
+  const user_id = parseInt(localStorage.getItem("user"));
 
   const totalCount = orderList.reduce((acc, value) => (acc += value.count), 0);
 

@@ -7,7 +7,7 @@ const OrderHistory = () => {
     const { allOrderList } = useSelector((state) => state.order);
     const dispatch = useDispatch();
   
-    const user_id = parseInt(localStorage.getItem("user_id"))
+    const user_id = parseInt(localStorage.getItem("user"))
   
     useEffect(() => {
       const fetchOrderDetails = () => dispatch(fetchAllOrder(user_id));

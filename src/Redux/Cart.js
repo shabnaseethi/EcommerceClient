@@ -7,13 +7,13 @@ const INITIAL_STATE = {
   cartCount: 0,
   productData: [],
   itemsToBuy: [{}],
-  user: JSON.parse(localStorage.getItem("user")),
 };
 const instance = axios.create({
   withCredentials: true,
 });
 
 export const fetchCart = createAsyncThunk("cart/fetchCart", async (values) => {
+  console.log(values);
   
   const response = fetch(`/cart/${values}`, {
     method: "GET",
@@ -37,7 +37,7 @@ export const fetchData = createAsyncThunk("cart/fetchData", async () => {
 });
 
 export const addToCart = createAsyncThunk("cart/addToCart", async (values) => {
-  console.log(values);
+  
   const response = fetch(`/addCart`, {
     method: "POST",
     credentials: "include",
@@ -94,6 +94,7 @@ export const decrementCart = createAsyncThunk(
 export const removeCart = createAsyncThunk(
   "cart/removeCart",
   async (values) => {
+
     const response = fetch(`/remove`, {
       method: "POST",
       credentials: "include",

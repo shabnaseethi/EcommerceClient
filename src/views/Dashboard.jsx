@@ -1,31 +1,38 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector} from "react-redux";
 import { loginStatus } from "../Redux/User";
 
 import "../styles/Dashboard.css";
 import Products from "./Products";
-import CustomAxios from "../api";
+
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isLogged } = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        await CustomAxios.get("/dashboard").then((res) => {
-        
-          if (res.response.data.error) {
-            console.log("Not Authenticated");
-            navigate("/login");
-           
-          }
-          else {
+        await fetch("/dashboard")
+          .then((res) => res.json())
+          .then((data) => {
+            if (data) {
+              if (data.user) {
+               
+                dispatch(loginStatus(true));
+                localStorage.setItem("user", JSON.stringify(data.user.id));
+                
+              }
+              else{
+                navigate("/login");
+              }
+            } else {
             
-            dispatch(loginStatus(true));
-          }
-        });
+              console.log("No data");
+            }
+          });
       } catch (error) {
         throw error.message;
       }
@@ -35,10 +42,8 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="dashboard">
-       
-      </div>
-      <Products />
+      {isLogged?<div><div className="dashboard"></div>
+      <Products /></div>:""}
     </>
   );
 };

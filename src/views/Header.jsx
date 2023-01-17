@@ -6,10 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { loginStatus } from "../Redux/User";
 import { toast } from "react-toastify";
 
-import CustomAxios from "../api";
-
 import LoginHeader from "./LoginHeader";
 import LogoutHeader from "./LogoutHeader";
+import axios from "axios";
 
 
 const Header = () => {
@@ -23,16 +22,16 @@ const Header = () => {
     (acc, value) => (acc += value.count),
     0
   );
-  const token = localStorage.getItem("refreshToken");
   
 
   const handlelogout = async () => {
-    await CustomAxios.post("/logout", {
-      token: token,
-    }).then((response) => {
-      localStorage.clear();
+    await axios.post("/logout").then((response) => {
+     
+     if(response.status===200){
       dispatch(loginStatus(false));
-      navigate("/");
+      localStorage.clear();
+      navigate("/login");
+     }
     });
     toast.info("Successfully Loggedout!!!", {
       className: "toast-info",

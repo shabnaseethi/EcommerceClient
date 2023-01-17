@@ -8,11 +8,11 @@ import { fetchCart } from "../Redux/Cart";
 import "../styles/Header.css"
 
 const LogoutHeader = ({ handlelogout, totalCartCount }) => {
-  const user_id = localStorage.getItem("user_id");
+  // const user_id = localStorage.getItem("user_id");
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchCart(user_id));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchCart(user_id));
+  // }, []);
   return (
 <div className="logout-header">
 <nav className="nav-links">

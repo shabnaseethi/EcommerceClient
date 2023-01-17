@@ -6,7 +6,8 @@ import { addToCart } from "../Redux/Cart";
 import { toast } from "react-toastify";
 
 function BeforeCart({ product }) {
-  const user_id = localStorage.getItem("user_id");
+  const user_id = localStorage.getItem("user");
+ 
   const { isLogged } = useSelector((state) => state.user);
   const addCart = (product) => {
     product.product.user_id = parseInt(user_id);

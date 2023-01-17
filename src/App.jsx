@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Header from "./views/Header.jsx";
 import { useDispatch } from "react-redux";
 import { fetchData } from "./Redux/Cart";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Home from "./views/Home.jsx";
 import ProductDetails from "./views/ProductDetails.jsx";
 import Login from "./views/Login.jsx";
@@ -17,16 +17,39 @@ import CheckoutFailed from "./views/CheckoutFailed.jsx";
 import OrderHistory from "./views/OrderHistory.jsx";
 import { useSelector } from "react-redux";
 import Dashboard from "./views/Dashboard.jsx";
-
+import { loginStatus } from "./Redux/User.js";
 
 import "./App.css";
 
 const App = () => {
   const dispatch = useDispatch();
 
+
   const { isLogged } = useSelector((state) => state.user);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        await fetch("/home")
+          .then((res) => res.json())
+          .then((data) => {
+            if (data) {
+              if (data.user) {
+               
+                dispatch(loginStatus(true));
+                localStorage.setItem("user", JSON.stringify(data.user.id));
+              } else {
+                
+              }
+            } else {
+              console.log("No data");
+            }
+          });
+      } catch (error) {
+        throw error.message;
+      }
+    };
+    fetchUser();
     dispatch(fetchData());
   }, [dispatch]);
 
@@ -43,19 +66,19 @@ const App = () => {
             exact
             element={<ProductDetails />}
           ></Route>
+          <Route path="/dashboard" exact element={<Dashboard />}></Route>
           <Route element={<LoginProtected isLogged={isLogged} />}>
             <Route path="/shoppingcart" exact element={<ShoppingCart />} />
-            <Route path="/dashboard" exact element={<Dashboard />}></Route>
+
             <Route path="/orders" exact element={<Orders />}></Route>
             <Route
               path="/order-history"
               exact
               element={<OrderHistory />}
             ></Route>
-           
           </Route>
           <Route path="/success" element={<CheckoutSuccess />} />
-            <Route path="/failed" element={<CheckoutFailed />} />
+          <Route path="/failed" element={<CheckoutFailed />} />
         </Routes>
       </Router>
       <ToastContainer

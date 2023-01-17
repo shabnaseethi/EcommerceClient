@@ -4,9 +4,9 @@ import "../styles/Login.css";
 import { useDispatch } from "react-redux";
 import { loginStatus } from "../Redux/User";
 import { toast } from "react-toastify";
-import CustomAxios from "../api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+
 
 function Login() {
   const dispatch = useDispatch();
@@ -16,7 +16,6 @@ function Login() {
   const handleOnChange = (event) => {
     const { name, value } = event.target;
     setInputValues({ ...inputValues, [name]: value });
-
   };
 
   const handlelogin = async (e) => {
@@ -30,18 +29,24 @@ function Login() {
         },
         body: JSON.stringify(inputValues),
       })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.loggedIn) {
-          
-            dispatch(loginStatus(data.loggedIn));
-
-            localStorage.setItem("accessToken", data.accessToken);
-            localStorage.setItem("refreshToken", data.refreshToken);
-            localStorage.setItem("user_id", data.user.id);
-            navigate("/dashboard");
+        .then((response) => {
+          if (response.status === 200) {
+            
+            return response.json();
           } else {
-            toast.error(data.status);
+            toast.error("Wrong credentials!!!")
+            
+          }
+        })
+        .then((data) => {
+          if (data) {
+            if (data.user) {
+              dispatch(loginStatus(true));
+              localStorage.setItem("user", JSON.stringify(data.user.id));
+              navigate("/dashboard");
+            }
+          } else {
+            console.log("No data");
           }
         });
     } catch (error) {
@@ -51,18 +56,23 @@ function Login() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        await CustomAxios.get("/login").then((res) => {
-         
-          if(res.status===401){
-            console.log("Authenticated");
-          }
-          if (res.response.data.error) {
-            navigate("/login");
-          } else {
-            navigate("/dashboard");
-            dispatch(loginStatus(true));
-          }
-        });
+        await fetch("/login")
+          .then((res) => res.json())
+          .then((data) => {
+            if (data) {
+              if (data.user) {
+                const user = {
+                  id: data.user.id,
+                  email: data.user.email,
+                };
+                dispatch(loginStatus(true));
+                localStorage.setItem("user", JSON.stringify(data.user.id));
+                navigate("/dashboard");
+              }
+            } else {
+              console.log("No data");
+            }
+          });
       } catch (error) {
         throw error.message;
       }
@@ -72,33 +82,39 @@ function Login() {
 
   return (
     <>
-    <div className="banner">
-    <div className="form-box-login">
-   
-   <form id='login' className='input-group-login' method="POST"
-         action="login"
-         onSubmit={handlelogin}>
-   <FontAwesomeIcon
-              className="fa-user"
-              icon={faUser}
+      <div className="banner">
+        <div className="form-box-login">
+          <form
+            id="login"
+            className="input-group-login"
+            method="POST"
+            action="login"
+            onSubmit={handlelogin}
+          >
+            <FontAwesomeIcon className="fa-user" icon={faUser} />
+            <input
+              type="email"
+              id="useremail"
+              name="email"
+              placeholder="Email Address"
+              onChange={handleOnChange}
+              required
             />
-     <input type="email"
-             id="useremail"
-             name="email"
-             placeholder="Email Address"
-             onChange={handleOnChange}
-             required />
-        <input type="password"
-             id="userpassword"
-             name="password"
-             placeholder="Password"
-             onChange={handleOnChange}
-             required/>
-        <button type='submit'className='submit-btn'>Login</button>
-  </form>
-   </div>
-    </div>
-     </>
+            <input
+              type="password"
+              id="userpassword"
+              name="password"
+              placeholder="Password"
+              onChange={handleOnChange}
+              required
+            />
+            <button type="submit" className="submit-btn">
+              Login
+            </button>
+          </form>
+        </div>
+      </div>
+    </>
   );
 }
 

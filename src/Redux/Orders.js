@@ -28,7 +28,6 @@ export const fetchOrder = createAsyncThunk(
 export const fetchAllOrder = createAsyncThunk(
   "order/fetchAllOrder",
   async (values) => {
-    
     const response = await fetch(`/allorder`, {
       method: "POST",
       credentials: "include",

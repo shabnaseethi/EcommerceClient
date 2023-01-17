@@ -23,7 +23,7 @@ function Signup() {
     e.preventDefault();
     try {
       dispatch(registerUser(userdata));
-      console.log(registerStatus);
+      
       if (registerStatus) {
         setUserdata({
           firstname: "",
@@ -72,7 +72,7 @@ function Signup() {
             required
           />
           <input
-            type="password"
+            type="text"
             className="input-field"
             id="email"
             name="email"
